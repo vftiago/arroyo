@@ -4,12 +4,7 @@ import Stats from "../node_modules/three/examples/jsm/libs/stats.module.js";
 
 const scene = new THREE.Scene();
 
-const camera: THREE.PerspectiveCamera = new THREE.PerspectiveCamera(
-  75,
-  window.innerWidth / window.innerHeight,
-  0.1,
-  1000
-);
+const camera = new THREE.PerspectiveCamera(45, document.body.clientWidth / window.innerHeight, 1, 10000);
 
 const renderer: THREE.WebGLRenderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
@@ -56,25 +51,11 @@ function App() {
       stats.end();
     }
 
-    render();
     animate();
   });
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
     </div>
   );
 }

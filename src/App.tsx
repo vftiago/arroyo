@@ -11,17 +11,8 @@ function App() {
 
     // cube
     const scene = new THREE.Scene();
-  
-    const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
-  
-    const renderer = new THREE.WebGLRenderer();
-  
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.setClearColor(0x111111, 1.0);
-
-    document.body.appendChild(renderer.domElement);
-  
-    const geometry: THREE.BoxGeometry = new THREE.BoxGeometry();
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 10000);
+        const geometry: THREE.BoxGeometry = new THREE.BoxGeometry();
     const material: THREE.MeshBasicMaterial = new THREE.MeshBasicMaterial({
       color: 0x00ff00,
       wireframe: true,
@@ -34,9 +25,16 @@ function App() {
     const postEffectCamera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 10000);
     const postEffectRenderer = new THREE.WebGLRenderTarget(document.body.clientWidth, window.innerHeight);
     const postEffect = new PostEffect(postEffectRenderer.texture);
+
+    // renderer
+    const renderer = new THREE.WebGLRenderer();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setClearColor(0x111111, 1.0);
+
+    document.body.appendChild(renderer.domElement);
   
     camera.position.z = 2;
-    // postEffectCamera.position.z = 2;
+    postEffectCamera.position.z = 2;
 
     const stats = Stats();
     document.body.appendChild(stats.dom);
@@ -48,8 +46,6 @@ function App() {
       cube.rotation.y += 0.01;
 
       render();
-
-      stats.update();
     };
 
     const render = () => {
@@ -65,17 +61,15 @@ function App() {
 
       stats.end();
     }
-    scene.add(postEffect.obj);
+    // scene.add(postEffect.obj);
 
     clock.start();
 
     renderLoop();
-
   });
 
   return (
-    <div>
-    </div>
+    <React.Fragment />
   );
 }
 

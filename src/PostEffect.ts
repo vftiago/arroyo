@@ -1,8 +1,7 @@
-import * as glsl from 'glslify'
-import THREE from 'three';
+import * as THREE from 'three';
 
-const fragmentShader = glsl.file('./glsl/fragmentShader.glsl')
-const vertexShader = glsl.file('./glsl/vertexShader.glsl')
+import fragmentShader from './glsl/fragmentShader.frag';
+import vertexShader from './glsl/vertexShader.vert';
 
 export default class PostEffect {
     uniforms: any;
@@ -30,8 +29,6 @@ export default class PostEffect {
 
 
   createObj() {
-    console.log(vertexShader);
-
     return new THREE.Mesh(
       new THREE.PlaneBufferGeometry(2, 2),
       new THREE.RawShaderMaterial({

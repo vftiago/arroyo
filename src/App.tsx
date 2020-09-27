@@ -10,21 +10,22 @@ function App() {
     const clock = new Clock();
 
     // cube
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 10000);
+    const backgroundScene = new THREE.Scene();
+    const backgroundCamera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 10000);
         const geometry: THREE.BoxGeometry = new THREE.BoxGeometry();
     const material: THREE.MeshBasicMaterial = new THREE.MeshBasicMaterial({
       color: 0x00ff00,
       wireframe: true,
     });
     const cube: THREE.Mesh = new THREE.Mesh(geometry, material);
-    scene.add(cube)
-  
+    backgroundScene.add(cube)
+
     // post
-    const postEffectScene = new THREE.Scene();
-    const postEffectCamera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 10000);
-    const postEffectRenderer = new THREE.WebGLRenderTarget(document.body.clientWidth, window.innerHeight);
-    const postEffect = new PostEffect(postEffectRenderer.texture);
+    const foregroundScene = new THREE.Scene();
+    const foregroundCamera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 10000);
+    const foregroundRenderer = new THREE.WebGLRenderTarget(document.body.clientWidth, window.innerHeight);
+    const postEffect = new PostEffect(foregroundRenderer.texture);
+    foregroundScene.add(postEffect.obj);
 
     // renderer
     const renderer = new THREE.WebGLRenderer();
@@ -33,8 +34,8 @@ function App() {
 
     document.body.appendChild(renderer.domElement);
   
-    camera.position.z = 2;
-    postEffectCamera.position.z = 2;
+    backgroundCamera.position.z = 2;
+    foregroundCamera.position.z = 2;
 
     const stats = Stats();
     document.body.appendChild(stats.dom);
@@ -52,16 +53,14 @@ function App() {
       stats.begin();
       const time = clock.getDelta();
       
-      renderer.render(scene, camera);
-      renderer.setRenderTarget(postEffectRenderer);
-      renderer.render(postEffectScene, postEffectCamera);
+      renderer.setRenderTarget(foregroundRenderer);
+      renderer.render(backgroundScene, backgroundCamera);
       postEffect.render(time);
       renderer.setRenderTarget(null);
-      renderer.render(scene, camera);
+      renderer.render(foregroundScene, foregroundCamera);
 
       stats.end();
     }
-    // scene.add(postEffect.obj);
 
     clock.start();
 

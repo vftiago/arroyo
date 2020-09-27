@@ -37,6 +37,14 @@ function App() {
     backgroundCamera.position.z = 2;
     foregroundCamera.position.z = 2;
 
+    // resize
+    window.addEventListener('resize', () => {
+      backgroundCamera.aspect = document.body.clientWidth / window.innerHeight;
+      backgroundCamera.updateProjectionMatrix();
+      renderer.setSize(document.body.clientWidth, window.innerHeight);
+      postEffect.resize();
+    });
+
     const stats = Stats();
     document.body.appendChild(stats.dom);
 

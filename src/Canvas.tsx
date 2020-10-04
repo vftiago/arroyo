@@ -57,6 +57,7 @@ const Canvas = (props: { texture: THREE.Texture }) => {
             backgroundCamera.aspect = document.body.clientWidth / window.innerHeight;
             backgroundCamera.updateProjectionMatrix();
             renderer.setSize(document.body.clientWidth, window.innerHeight);
+            foregroundRenderer.setSize(document.body.clientWidth, window.innerHeight);
             postEffect.resize();
         });
 

@@ -1,19 +1,19 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import * as THREE from "three";
 import { Clock } from "three";
 import Stats from "../node_modules/three/examples/jsm/libs/stats.module.js";
 import PostEffect from "./PostEffect";
 
-
 function App() {
+
   useEffect(() => {
     const clock = new Clock();
 
     // cube
     const backgroundScene = new THREE.Scene();
     const backgroundCamera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 10000);
-        const geometry: THREE.BoxGeometry = new THREE.BoxGeometry();
-    const material: THREE.MeshBasicMaterial = new THREE.MeshBasicMaterial({
+    const geometry = new THREE.SphereGeometry(0.5, 32, 32);
+    const material = new THREE.MeshBasicMaterial({
       color: 0x00ff00,
       wireframe: true,
     });
@@ -48,7 +48,7 @@ function App() {
     const stats = Stats();
     document.body.appendChild(stats.dom);
 
-    var renderLoop = function () {
+    const renderLoop = function () {
       requestAnimationFrame(renderLoop);
 
       cube.rotation.x += 0.01;
@@ -60,7 +60,7 @@ function App() {
     const render = () => {
       stats.begin();
       const time = clock.getDelta();
-      
+
       renderer.setRenderTarget(foregroundRenderer);
       renderer.render(backgroundScene, backgroundCamera);
       postEffect.render(time);

@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 
-import fragmentShader from './glsl/fragmentShader.frag';
-import vertexShader from './glsl/vertexShader.vert';
+import fragmentShader from './glsl/postEffect.frag';
+import vertexShader from './glsl/postEffect.vert';
 
 export default class PostEffect {
     uniforms: any;

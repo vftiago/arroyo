@@ -7,7 +7,7 @@ const predicate = valueToTest => {
 const transform = match => ({
   ...match,
   oneOf: [
-    // Need to add as second-to-last to avoid being intercepted by the file-loader in CRA
+    // need to add as second-to-last to avoid being intercepted by the file-loader in CRA
     ...match.oneOf.slice(0, -1),
     {
       test: /\.(glsl|frag|vert)$/,

@@ -10,6 +10,7 @@
     "@types/node": "^12.0.0",
     "@types/react": "^16.9.0",
     "@types/react-dom": "^16.9.0",
+    "glsl-easings": "^1.0.0",
     "glsl-noise": "^0.0.0",
     "glslify": "^7.1.1",
     "glslify-loader": "^2.0.0",
@@ -42,6 +43,7 @@
     ]
   },
   "devDependencies": {
-    "@rescripts/cli": "^0.0.14"
+    "@rescripts/cli": "^0.0.14",
+    "@types/three": "^0.103.2"
   }
 }

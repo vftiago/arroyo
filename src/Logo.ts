@@ -21,15 +21,19 @@ const Logo = (textureValue: THREE.Texture) => {
         },
     };
 
-    const geometry = new THREE.PlaneBufferGeometry(256, 64, 40, 10);
+    const geometry = new THREE.PlaneBufferGeometry(5, 5, 10, 10);
+
     const material = new THREE.RawShaderMaterial({
         uniforms,
         vertexShader,
         fragmentShader,
-        // transparent: true,
+        transparent: true,
     });
 
-    return new THREE.Mesh(geometry, material);
+    return {
+        mesh: new THREE.Mesh(geometry, material),
+        material,
+    };
 };
 
 export default Logo;

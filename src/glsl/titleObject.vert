@@ -7,17 +7,17 @@ uniform float time;
 
 varying vec2 vUv;
 
-const float interval = 3.0;
+const float interval=3.;
 
-#pragma glslify: ease = require(glsl-easings/cubic-out)
+#pragma glslify:ease=require(glsl-easings/cubic-out)
 
-void main() {
-  float now = ease(min(time / interval, 1.0));
-  vec3 updatePosition = vec3(
-    position.x * (1.2 - now * 0.2),
-    position.y * (1.2 - now * 0.2),
+void main(){
+  float now=ease(min(time/interval,1.));
+  vec3 updatePosition=vec3(
+    position.x*(1.2-now*.2),
+    position.y*(1.2-now*.2),
     position.z
   );
-  vUv = uv;
-  gl_Position = projectionMatrix * modelViewMatrix * vec4(updatePosition, 1.0);
+  vUv=uv;
+  gl_Position=projectionMatrix*modelViewMatrix*vec4(updatePosition,1.);
 }

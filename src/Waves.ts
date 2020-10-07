@@ -11,11 +11,8 @@ const Waves = () => {
         },
     };
 
-    // this.obj.position.set(0, -200, 0);
-    // this.obj.rotation.set((-90 * Math.PI / 180), 0, 0);
-
     return new THREE.Mesh(
-        new THREE.PlaneBufferGeometry(1024, 1024, 32, 32),
+        new THREE.PlaneBufferGeometry(2048, 2048, 64, 64),
         new THREE.RawShaderMaterial({
             uniforms,
             vertexShader,

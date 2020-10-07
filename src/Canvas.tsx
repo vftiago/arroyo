@@ -51,18 +51,18 @@ const Canvas = (props: { texture: THREE.Texture }) => {
         const postEffect = new PostEffect(backgroundRenderer.texture);
         foregroundScene.add(postEffect.obj);
 
-        // logo
-        const logo = Logo(texture);
-        logo.mesh.position.y = 128;
-        // logo.mesh.rotation.set(0, 0, 0);
-
-        backgroundScene.add(logo.mesh);
-
         // waves
         const waves = Waves();
         waves.position.set(0, -200, 0);
         waves.rotation.set((-90 * Math.PI) / 180, 0, 0);
         backgroundScene.add(waves);
+
+        // logo
+        const logo = Logo(texture);
+        logo.mesh.position.y = 150;
+        // logo.mesh.rotation.set(0, 0, 0);
+
+        backgroundScene.add(logo.mesh);
 
         foregroundRenderer.setSize(window.innerWidth, window.innerHeight);
         foregroundRenderer.setClearColor(0x111111, 1.0);
@@ -80,9 +80,11 @@ const Canvas = (props: { texture: THREE.Texture }) => {
             postEffect.resize();
         });
 
+        // stats
         const stats = Stats();
         document.body.appendChild(stats.dom);
 
+        // render
         const renderLoop = function () {
             render();
             requestAnimationFrame(renderLoop);

@@ -5,7 +5,8 @@ uniform float time;
 varying vec3 vPosition;
 
 const float duration=8.;
-const float delay=4.;
+const float delay=2.;
+const float radius=1024.;
 
 vec3 convertHsvToRgb(vec3 c){
   vec4 K=vec4(1.,2./3.,1./3.,3.);
@@ -15,7 +16,7 @@ vec3 convertHsvToRgb(vec3 c){
 
 void main(){
   float now=clamp((time-delay)/duration,0.,1.);
-  float opacity=(1.-length(vPosition.xy/vec2(512.)))*.6*now;
+  float opacity=(1.-length(vPosition.xy/vec2(radius)))*.6*now;
   vec3 v=normalize(vPosition);
   vec3 rgb=convertHsvToRgb(vec3(.5+(v.x+v.y+v.x)/40.+time*.1,.4,1.));
   gl_FragColor=vec4(rgb,opacity);

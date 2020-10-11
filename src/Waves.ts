@@ -3,6 +3,8 @@ import * as THREE from "three";
 import fragmentShader from "./glsl/waves.frag";
 import vertexShader from "./glsl/waves.vert";
 
+const PLANE_DIMENSIONS = 1024;
+
 const Waves = () => {
     const uniforms = {
         time: {
@@ -12,7 +14,12 @@ const Waves = () => {
     };
 
     return new THREE.Mesh(
-        new THREE.PlaneBufferGeometry(2048, 2048, 64, 64),
+        new THREE.PlaneBufferGeometry(
+            PLANE_DIMENSIONS,
+            PLANE_DIMENSIONS,
+            PLANE_DIMENSIONS / 32,
+            PLANE_DIMENSIONS / 32,
+        ),
         new THREE.RawShaderMaterial({
             uniforms,
             vertexShader,

@@ -6,7 +6,7 @@ varying vec3 vPosition;
 
 const float duration=8.;
 const float delay=2.;
-const float radius=1024.;
+const float radius=512.;
 
 vec3 convertHsvToRgb(vec3 c){
   vec4 K=vec4(1.,2./3.,1./3.,3.);

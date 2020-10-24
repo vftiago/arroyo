@@ -1,4 +1,3 @@
-import React, { useEffect } from "react";
 import * as THREE from "three";
 import { Clock } from "three";
 import Stats from "../node_modules/three/examples/jsm/libs/stats.module.js";
@@ -7,111 +6,113 @@ import Logo from "./Logo";
 import Waves from "./Waves";
 
 const perspectiveCamera = [45, window.innerWidth / window.innerHeight, 0.1, 10000];
-const orthographicCamera = [-1, 1, 1, -1, 0, 1];
 
 const updateMaterialUniformsTimeValue = (material: THREE.RawShaderMaterial, time: number) => {
     material.uniforms.time.value += time;
 };
 
-const Canvas = (props: { texture: THREE.Texture }) => {
-    const { texture } = props;
+const Canvas = (texture: THREE.Texture, canvas: HTMLCanvasElement) => {
+    const clock = new Clock();
 
-    useEffect(() => {
-        const clock = new Clock();
+    // renderer
+    const foregroundRenderer = new THREE.WebGLRenderer({
+        antialias: false,
+        canvas,
+    });
 
-        // renderer
-        const foregroundRenderer = new THREE.WebGLRenderer({
-            antialias: false,
-        });
+    document.body.appendChild(foregroundRenderer.domElement);
 
-        document.body.appendChild(foregroundRenderer.domElement);
+    const backgroundRenderer = new THREE.WebGLRenderTarget(
+        document.body.clientWidth,
+        window.innerHeight,
+    );
 
-        const backgroundRenderer = new THREE.WebGLRenderTarget(
-            document.body.clientWidth,
-            window.innerHeight,
-        );
+    // scenes
+    const foregroundScene = new THREE.Scene();
+    const foregroundCamera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
 
-        // scenes
-        const foregroundScene = new THREE.Scene();
-        const foregroundCamera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
+    const backgroundScene = new THREE.Scene();
+    const backgroundCamera = new THREE.PerspectiveCamera(...perspectiveCamera);
 
-        const backgroundScene = new THREE.Scene();
-        const backgroundCamera = new THREE.PerspectiveCamera(...perspectiveCamera);
+    // post
+    const postEffect = new PostEffect(backgroundRenderer.texture);
+    foregroundScene.add(postEffect.obj);
 
-        // sphere
-        // const geometry = new THREE.SphereGeometry(1, 32, 32);
-        // const material = new THREE.MeshBasicMaterial({
-        //     color: 0x00ff00,
-        //     wireframe: true,
-        // });
-        // const sphere: THREE.Mesh = new THREE.Mesh(geometry, material);
-        // backgroundScene.add(sphere);
+    // waves
+    const waves = Waves();
+    waves.position.set(0, -200, 0);
+    waves.rotation.set((-90 * Math.PI) / 180, 0, 0);
+    backgroundScene.add(waves);
 
-        // post
-        const postEffect = new PostEffect(backgroundRenderer.texture);
-        foregroundScene.add(postEffect.obj);
+    // logo
+    const logo = Logo(texture);
+    logo.mesh.position.y = 200;
+    logo.mesh.position.z = -280;
 
-        // waves
-        const waves = Waves();
-        waves.position.set(0, -200, 0);
-        waves.rotation.set((-90 * Math.PI) / 180, 0, 0);
-        backgroundScene.add(waves);
+    // logo.mesh.rotation.set(0, 0, 0);
 
-        // logo
-        const logo = Logo(texture);
-        logo.mesh.position.y = 150;
-        // logo.mesh.rotation.set(0, 0, 0);
+    backgroundScene.add(logo.mesh);
 
-        backgroundScene.add(logo.mesh);
+    foregroundRenderer.setSize(window.innerWidth, window.innerHeight);
+    foregroundRenderer.setClearColor(0x111111, 1.0);
 
-        foregroundRenderer.setSize(window.innerWidth, window.innerHeight);
-        foregroundRenderer.setClearColor(0x111111, 1.0);
+    backgroundCamera.position.z = 800;
+    // backgroundCamera.position.y = 2;
+    // foregroundCamera.position.z = 4;
 
-        backgroundCamera.position.z = 800;
-        // backgroundCamera.position.y = 2;
-        // foregroundCamera.position.z = 4;
+    // resize
+    const resizeCanvas = () => {
+        canvas.width = document.body.clientWidth;
+        canvas.height = window.innerHeight;
+        backgroundCamera.aspect = document.body.clientWidth / window.innerHeight;
+        backgroundCamera.updateProjectionMatrix();
+        foregroundRenderer.setSize(document.body.clientWidth, window.innerHeight);
+        backgroundRenderer.setSize(document.body.clientWidth, window.innerHeight);
+        postEffect.resize();
+    };
 
-        // resize
-        window.addEventListener("resize", () => {
-            backgroundCamera.aspect = document.body.clientWidth / window.innerHeight;
-            backgroundCamera.updateProjectionMatrix();
-            foregroundRenderer.setSize(document.body.clientWidth, window.innerHeight);
-            backgroundRenderer.setSize(document.body.clientWidth, window.innerHeight);
-            postEffect.resize();
-        });
+    window.addEventListener("resize", resizeCanvas);
 
-        // stats
-        const stats = Stats();
-        document.body.appendChild(stats.dom);
+    // scroll
+    const backgroundCameraPosition = { y: 0 };
+    backgroundCamera.position.y = backgroundCameraPosition.y;
 
-        // render
-        const renderLoop = function () {
-            render();
-            requestAnimationFrame(renderLoop);
-        };
+    function updateCamera() {
+        backgroundCamera.position.y = -window.pageYOffset;
+    }
 
-        const render = () => {
-            stats.begin();
-            const time = clock.getDelta();
+    window.addEventListener("scroll", updateCamera);
 
-            updateMaterialUniformsTimeValue(logo.material, time);
-            updateMaterialUniformsTimeValue(waves.material, time);
+    // stats
+    const stats = Stats();
+    document.body.appendChild(stats.dom);
 
-            foregroundRenderer.setRenderTarget(backgroundRenderer);
-            foregroundRenderer.render(backgroundScene, backgroundCamera);
-            postEffect.render(time);
-            foregroundRenderer.setRenderTarget(null);
-            foregroundRenderer.render(foregroundScene, foregroundCamera);
+    // render
+    const renderLoop = function () {
+        const time = clock.getDelta();
+        render(time);
+        requestAnimationFrame(renderLoop);
+    };
 
-            stats.end();
-        };
+    const render = (time: number) => {
+        stats.begin();
 
-        clock.start();
+        updateMaterialUniformsTimeValue(logo.material, time);
+        updateMaterialUniformsTimeValue(waves.material, time);
 
-        renderLoop();
-    }, [texture]);
+        foregroundRenderer.setRenderTarget(backgroundRenderer);
+        foregroundRenderer.render(backgroundScene, backgroundCamera);
+        postEffect.render(time);
+        foregroundRenderer.setRenderTarget(null);
+        foregroundRenderer.render(foregroundScene, foregroundCamera);
 
-    return <React.Fragment />;
+        stats.end();
+    };
+
+    clock.start();
+    resizeCanvas();
+
+    renderLoop();
 };
 
 export default Canvas;

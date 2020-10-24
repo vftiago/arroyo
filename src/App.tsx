@@ -3,7 +3,7 @@ import { css, jsx } from "@emotion/core";
 import { Fragment, useEffect, useState } from "react";
 import * as THREE from "three";
 import Canvas from "./Canvas";
-import textureImage from "./img/lightradius.png";
+import textureImage from "./img/lightradius-slightly-less-thicc.png";
 
 function App() {
     const [texture, setTexture] = useState<THREE.Texture>();
@@ -27,8 +27,12 @@ function App() {
     return (
         <Fragment>
             <canvas css={canvasStyle} id="canvas"></canvas>
-            <div css={contentStyle}>
-                <h1 id="title">reclaim your digital space</h1>
+            <main css={contentStyle}></main>
+            <div css={callToActionStyle}>
+                <h1>reclaim your digital space</h1>
+            </div>
+            <div css={missionStatementStyle}>
+                <p>take control of your digital life</p>
             </div>
         </Fragment>
     );
@@ -46,11 +50,29 @@ const canvasStyle = css`
 
 const contentStyle = css`
     display: flex;
-    flex-direction: column;
     align-items: center;
-    align-content: flex-end;
+    justify-content: center;
+    width: 100vw;
+`;
+
+const missionStatementStyle = css`
+    top: 100vh;
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+`;
+
+const callToActionStyle = css`
+    display: flex;
+    justify-content: center;
+    height: 200px;
     width: 100%;
-    height: 200vh;
+    position: absolute;
+    bottom: 0;
+    h1 {
+        font-size: 24px;
+    }
 `;
 
 export default App;

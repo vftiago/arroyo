@@ -1,7 +1,7 @@
 import * as THREE from "three";
 
-import fragmentShader from "./glsl/titleObject.frag";
-import vertexShader from "./glsl/titleObject.vert";
+import fragmentShader from "./glsl/logo.frag";
+import vertexShader from "./glsl/logo.vert";
 
 const Logo = (textureValue: THREE.Texture) => {
     const uniforms = {
@@ -21,7 +21,7 @@ const Logo = (textureValue: THREE.Texture) => {
         },
     };
 
-    const geometry = new THREE.CircleBufferGeometry(200, 60);
+    const geometry = new THREE.CircleBufferGeometry(192, 60);
 
     const material = new THREE.RawShaderMaterial({
         uniforms,

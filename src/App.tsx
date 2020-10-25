@@ -36,6 +36,8 @@ function App() {
         }
     }, [textures]);
 
+    const size = 18;
+
     return (
         <Fragment>
             <canvas css={canvasStyle} id="canvas"></canvas>
@@ -43,9 +45,9 @@ function App() {
             <div css={callToActionStyle}>
                 <h1>reclaim your digital space</h1>
                 <div css={socialIconsStyle}>
-                    <GithubIcon></GithubIcon>
-                    <MailIcon></MailIcon>
-                    <LinkedinIcon></LinkedinIcon>
+                    <GithubIcon size={size}></GithubIcon>
+                    <MailIcon size={size}></MailIcon>
+                    <LinkedinIcon size={size}></LinkedinIcon>
                 </div>
             </div>
             <div css={missionStatementStyle}>

@@ -1,8 +1,9 @@
 import * as THREE from "three";
-import { Clock } from "three";
+import { BoxBufferGeometry, Clock, Mesh, RawShaderMaterial } from "three";
 import Stats from "../node_modules/three/examples/jsm/libs/stats.module.js";
 import PostEffect from "./PostEffect";
 import Logo from "./Logo";
+import Debris from "./Debris";
 import Lettering from "./Lettering";
 import Waves from "./Waves";
 
@@ -58,6 +59,28 @@ const Canvas = (textures: THREE.Texture[], canvas: HTMLCanvasElement) => {
 
     backgroundScene.add(lettering.mesh);
 
+    // debris
+    const debrisCoordinates = [
+        { x: 400, y: -500, z: 200 },
+        { x: -350, y: -500, z: -150 },
+        { x: -150, y: -700, z: -150 },
+        { x: -500, y: -900, z: 0 },
+        { x: 100, y: -1100, z: 250 },
+    ];
+    let debris: {
+        mesh: Mesh<BoxBufferGeometry, RawShaderMaterial>;
+        material: RawShaderMaterial;
+    }[] = [];
+
+    debrisCoordinates.forEach((coordinate, index) => {
+        debris.push(Debris());
+        debris[index].mesh.position.set(coordinate.x, coordinate.y, coordinate.z);
+    });
+
+    debris.forEach((debris) => {
+        backgroundScene.add(debris.mesh);
+    });
+
     // logo.mesh.rotation.set(0, 0, 0);
 
     foregroundRenderer.setSize(window.innerWidth, window.innerHeight);
@@ -103,6 +126,10 @@ const Canvas = (textures: THREE.Texture[], canvas: HTMLCanvasElement) => {
 
     const render = (time: number) => {
         stats.begin();
+
+        debris.forEach((debris) => {
+            updateMaterialUniformsTimeValue(debris.material, time);
+        });
 
         updateMaterialUniformsTimeValue(lettering.material, time);
         updateMaterialUniformsTimeValue(logo.material, time);

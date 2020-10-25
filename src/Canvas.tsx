@@ -3,6 +3,7 @@ import { Clock } from "three";
 import Stats from "../node_modules/three/examples/jsm/libs/stats.module.js";
 import PostEffect from "./PostEffect";
 import Logo from "./Logo";
+import Lettering from "./Lettering";
 import Waves from "./Waves";
 
 const perspectiveCamera = [45, window.innerWidth / window.innerHeight, 0.1, 10000];
@@ -11,7 +12,7 @@ const updateMaterialUniformsTimeValue = (material: THREE.RawShaderMaterial, time
     material.uniforms.time.value += time;
 };
 
-const Canvas = (texture: THREE.Texture, canvas: HTMLCanvasElement) => {
+const Canvas = (textures: THREE.Texture[], canvas: HTMLCanvasElement) => {
     const clock = new Clock();
 
     // renderer
@@ -45,13 +46,19 @@ const Canvas = (texture: THREE.Texture, canvas: HTMLCanvasElement) => {
     backgroundScene.add(waves);
 
     // logo
-    const logo = Logo(texture);
+    const logo = Logo(textures[0]);
     logo.mesh.position.y = 200;
     logo.mesh.position.z = -280;
 
-    // logo.mesh.rotation.set(0, 0, 0);
-
     backgroundScene.add(logo.mesh);
+
+    // lettering
+    const lettering = Lettering(textures[1]);
+    lettering.mesh.position.z = -280;
+
+    backgroundScene.add(lettering.mesh);
+
+    // logo.mesh.rotation.set(0, 0, 0);
 
     foregroundRenderer.setSize(window.innerWidth, window.innerHeight);
     foregroundRenderer.setClearColor(0x111111, 1.0);
@@ -97,6 +104,7 @@ const Canvas = (texture: THREE.Texture, canvas: HTMLCanvasElement) => {
     const render = (time: number) => {
         stats.begin();
 
+        updateMaterialUniformsTimeValue(lettering.material, time);
         updateMaterialUniformsTimeValue(logo.material, time);
         updateMaterialUniformsTimeValue(waves.material, time);
 

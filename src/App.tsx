@@ -3,26 +3,35 @@ import { css, jsx } from "@emotion/core";
 import { Fragment, useEffect, useState } from "react";
 import * as THREE from "three";
 import Canvas from "./Canvas";
-import textureImage from "./img/lightradius-slightly-less-thicc.png";
+import logoImage from "./img/lightradius-slightly-less-thicc.png";
+import letteringImage from "./img/lettering.png";
 
 function App() {
-    const [texture, setTexture] = useState<THREE.Texture>();
+    const [textures, setTextures] = useState<THREE.Texture[]>();
 
     useEffect(() => {
         const loadTexture = async () => {
             const loader = new THREE.TextureLoader();
 
-            const texture = await loader.load(textureImage);
+            let textures = [];
+
+            const logoTexture = await loader.load(logoImage);
+            const letteringTexture = await loader.load(letteringImage);
+
+            textures.push(logoTexture, letteringTexture);
+
             const canvas = document.getElementById("canvas") as HTMLCanvasElement;
 
-            setTexture(texture);
-            Canvas(texture, canvas);
+            setTextures(textures);
+
+            console.log(textures);
+            Canvas(textures, canvas);
         };
 
-        if (!texture) {
+        if (!textures) {
             loadTexture();
         }
-    }, [texture]);
+    }, [textures]);
 
     return (
         <Fragment>

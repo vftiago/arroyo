@@ -19,7 +19,7 @@
         "raw-loader": "^4.0.1",
         "react": "^16.13.1",
         "react-dom": "^16.13.1",
-        "react-scripts": "4.0.0",
+        "react-scripts": "^3.4.4",
         "three": "^0.120.1",
         "typescript": "~3.7.2"
     },

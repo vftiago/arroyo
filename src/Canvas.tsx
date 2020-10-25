@@ -106,7 +106,7 @@ const Canvas = (textures: THREE.Texture[], canvas: HTMLCanvasElement) => {
     backgroundCamera.position.y = backgroundCameraPosition.y;
 
     function updateCamera() {
-        backgroundCamera.position.y = -window.pageYOffset;
+        backgroundCamera.position.y = -window.pageYOffset / 2;
     }
 
     window.addEventListener("scroll", updateCamera);

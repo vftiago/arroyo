@@ -5,6 +5,9 @@ import * as THREE from "three";
 import Canvas from "./Canvas";
 import logoImage from "./img/lightradius-slightly-less-thicc.png";
 import letteringImage from "./img/lettering.png";
+import LinkedinIcon from "./LinkedinIcon";
+import GithubIcon from "./GithubIcon";
+import MailIcon from "./MailIcon";
 
 function App() {
     const [textures, setTextures] = useState<THREE.Texture[]>();
@@ -39,6 +42,11 @@ function App() {
             <main css={contentStyle}></main>
             <div css={callToActionStyle}>
                 <h1>reclaim your digital space</h1>
+                <div css={socialIconsStyle}>
+                    <GithubIcon></GithubIcon>
+                    <MailIcon></MailIcon>
+                    <LinkedinIcon></LinkedinIcon>
+                </div>
             </div>
             <div css={missionStatementStyle}>
                 <p>take control of your digital life</p>
@@ -64,6 +72,17 @@ const contentStyle = css`
     width: 100vw;
 `;
 
+const socialIconsStyle = css`
+    display: flex;
+    align-items: center;
+    svg {
+        padding: 8px;
+        :hover {
+            cursor: pointer;
+        }
+    }
+`;
+
 const missionStatementStyle = css`
     height: 2000px;
     top: 100vh;
@@ -76,12 +95,14 @@ const missionStatementStyle = css`
 const callToActionStyle = css`
     display: flex;
     justify-content: center;
+    align-items: center;
+    flex-direction: column;
     height: 200px;
     width: 100%;
     position: absolute;
     bottom: 0;
     h1 {
-        font-size: 24px;
+        font-size: 20px;
     }
 `;
 

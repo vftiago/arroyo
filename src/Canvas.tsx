@@ -57,7 +57,7 @@ const Canvas = (textures: THREE.Texture[], canvas: HTMLCanvasElement) => {
     const lettering = Lettering(textures[1]);
     lettering.mesh.position.z = -280;
 
-    backgroundScene.add(lettering.mesh);
+    // backgroundScene.add(lettering.mesh);
 
     // debris
     const debrisCoordinates = [
@@ -81,14 +81,12 @@ const Canvas = (textures: THREE.Texture[], canvas: HTMLCanvasElement) => {
         backgroundScene.add(debris.mesh);
     });
 
-    // logo.mesh.rotation.set(0, 0, 0);
+    // logo.mesh.rotation.set(1, 0, 0);
 
     foregroundRenderer.setSize(window.innerWidth, window.innerHeight);
     foregroundRenderer.setClearColor(0x111111, 1.0);
 
     backgroundCamera.position.z = 800;
-    // backgroundCamera.position.y = 2;
-    // foregroundCamera.position.z = 4;
 
     // resize
     const resizeCanvas = () => {

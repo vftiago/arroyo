@@ -65,6 +65,7 @@ const contentStyle = css`
 `;
 
 const missionStatementStyle = css`
+    height: 2000px;
     top: 100vh;
     position: absolute;
     display: flex;

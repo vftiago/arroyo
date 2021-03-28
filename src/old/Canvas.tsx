@@ -1,9 +1,9 @@
 import * as THREE from "three";
 import { BoxBufferGeometry, Clock, Mesh, RawShaderMaterial } from "three";
-import Stats from "../node_modules/three/examples/jsm/libs/stats.module.js";
-import PostEffect from "./PostEffect";
-import Debris from "./Debris";
-import Waves from "./Waves";
+// import Stats from "three/examples/jsm/libs/stats.module";
+import PostEffect from "../PostEffect";
+import Debris from "../Debris";
+import Waves from "../Waves";
 
 const perspectiveCamera = [
   45,
@@ -105,8 +105,8 @@ const Canvas = (textures: THREE.Texture[], canvas: HTMLCanvasElement) => {
   window.addEventListener("scroll", updateCamera);
 
   // stats
-  const stats = Stats();
-  document.body.appendChild(stats.dom);
+  // const stats = Stats();
+  // document.body.appendChild(stats.dom);
 
   // render
   const renderLoop = function () {
@@ -116,7 +116,7 @@ const Canvas = (textures: THREE.Texture[], canvas: HTMLCanvasElement) => {
   };
 
   const render = (time: number) => {
-    stats.begin();
+    // stats.begin();
 
     debris.forEach((debris) => {
       updateMaterialUniformsTimeValue(debris.material, time);
@@ -130,7 +130,7 @@ const Canvas = (textures: THREE.Texture[], canvas: HTMLCanvasElement) => {
     foregroundRenderer.setRenderTarget(null);
     foregroundRenderer.render(foregroundScene, foregroundCamera);
 
-    stats.end();
+    // stats.end();
   };
 
   clock.start();

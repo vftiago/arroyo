@@ -72,7 +72,7 @@ function App({
 
     typedExternalLink = new Typed("#external-link", {
       strings: [
-        `<p>go to <a href="https://lightradius.com" target="_blank">lightradius.com</a> →</p>`,
+        `<p>go to <a href="https://tiagofernandes.dev" target="_blank">tiagofernandes.dev</a> →</p>`,
         "",
       ],
       typeSpeed: 1,
@@ -112,7 +112,7 @@ function App({
         </div>
         <div css={centerPieceStyle}>
           <header css={headerStyle}>
-            tiago fernandes — front-end web developer
+            lightradius — front-end web solutions
           </header>
         </div>
         <div css={iconContainerStyle}></div>
@@ -255,7 +255,10 @@ const centerPieceStyle = css`
 `;
 
 const headerStyle = css`
-  width: 265px;
+  display: flex;
+  flex: 1 0 200px;
+  min-width: 229px; // TODO: this is just wrong;
+  /* width: 265px; */
 `;
 
 const iconContainerStyle = css`
@@ -277,11 +280,11 @@ const iconContainerStyle = css`
   }
   svg {
     transition: all 0.5s cubic-bezier(0.215, 0.61, 0.355, 1);
-    fill: #666;
+    fill: white;
   }
   &::after {
     transition: all 0.5s cubic-bezier(0.215, 0.61, 0.355, 1);
-    background-color: #666;
+    background-color: white;
     content: "";
     position: absolute;
     top: 50%;
@@ -369,7 +372,7 @@ const socialIconsStyle = css`
   svg {
     transition: all 0.5s cubic-bezier(0.215, 0.61, 0.355, 1);
     /* margin: ${"0 " + iconSize + "px"}; */
-    fill: #666;
+    fill: white;
     &:hover {
       cursor: pointer;
       fill: ${accentColor};
@@ -423,7 +426,7 @@ const waterfallStyle = css`
     height: 100%;
     position: absolute;
     top: 0;
-    background-color: #888;
+    background-color: white;
     animation-name: waterfall;
     animation-duration: 1s;
     animation-iteration-count: infinite;

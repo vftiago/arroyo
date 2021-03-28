@@ -10,7 +10,7 @@ import buttonHover from "../assets/audio/button-hover.mp3";
 import playSound from "../utils/playSound";
 
 function AppContainer() {
-  const [ready, setReady] = useState(false);
+  const [ready, setReady] = useState(true);
   const [muted, setMuted] = useState(true);
 
   const buttonClickAudioElement = useRef(null);

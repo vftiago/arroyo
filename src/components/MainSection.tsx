@@ -177,7 +177,7 @@ const mainContentStyle = css`
 `;
 
 const toastStyle = css`
-	width: 253px;
+	width: 287px;
 	height: 16px;
 `;
 

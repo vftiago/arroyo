@@ -134,8 +134,8 @@ const horizontalBarStyles = css`
 	grid-template-columns: 80px auto 80px;
 	align-items: center;
 	width: 100%;
-	background-color: rgba(235, 235, 235, 0.9);
-	box-shadow: 0 3px 3px 0px rgba(88, 88, 88, 0.1);
+	background-color: rgba(0, 0, 0, 0);
+	box-shadow: 0 3px 3px 0px rgba(33, 33, 33, 0.1);
 `;
 
 const verticalBarStyles = css`

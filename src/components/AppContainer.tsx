@@ -11,6 +11,7 @@ import Navbar from "./Navbar";
 import { screenSize } from "../theme";
 import { WEEKDAYS } from "../constants";
 import { pickRandomArrayElement } from "../utils/pickRandomArrayElement";
+import RepositorySection from "./RepositorySection";
 const ThreeScene = React.lazy(() => import("./scene/ThreeScene"));
 
 export enum Orientation {
@@ -124,12 +125,12 @@ function AppContainer() {
 				onButtonClick={handleButtonClick}
 				onButtonHover={handleButtonHover}
 			/>
-			{/* <RepositorySection
+			<RepositorySection
 				onVisibilityChange={handleVisibilityChange}
 				orientation={
 					largeScreen ? Orientation.Vertical : Orientation.Horizontal
 				}
-			/> */}
+			/>
 			{/* <ProjectSection onVisibilityChange={handleVisibilityChange} /> */}
 			<Footer />
 		</div>

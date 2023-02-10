@@ -43,7 +43,7 @@ function RepositorySection({ onVisibilityChange, orientation }: Props) {
 
 	useEffect(() => {
 		onVisibilityChange(1, inView);
-	}, [inView]);
+	}, [inView, onVisibilityChange]);
 
 	return (
 		<Element css={projectSectionStyle} name="repository-section">

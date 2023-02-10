@@ -1,7 +1,7 @@
 import React from "react";
 
 // source: https://icon-icons.com/icon/commit-git/213840
-const GitCommitIcon = ({ size = 16 }) => (
+const GitCommitIcon = ({ size = 16, stroke = "#000" }) => (
 	<svg
 		xmlns="http://www.w3.org/2000/svg"
 		width={size}
@@ -10,7 +10,7 @@ const GitCommitIcon = ({ size = 16 }) => (
 		viewBox="0 0 15 15"
 	>
 		<path
-			stroke="#000"
+			stroke={stroke}
 			d="M7.5 10.5a3 3 0 010-6m0 6a3 3 0 000-6m0 6V15m0-10.5V0"
 		></path>
 	</svg>

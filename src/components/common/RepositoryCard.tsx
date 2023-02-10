@@ -58,7 +58,7 @@ function RepositoryCard(props: RepositoryCardProps) {
 							{data.map((commit, index) => {
 								return (
 									<li key={index}>
-										<GitCommitIcon />
+										<GitCommitIcon stroke="white" />
 										<span css={commitMessageStyle}>
 											{commit.commit.message}
 										</span>

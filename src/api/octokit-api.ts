@@ -3,7 +3,7 @@ import { Endpoints } from "@octokit/types";
 
 const octokit = new Octokit({
 	auth: process.env.REACT_APP_GITHUB_AUTH_TOKEN,
-	userAgent: "klamath",
+	userAgent: "arroyo",
 	previews: ["inertia"],
 });
 
@@ -15,7 +15,7 @@ export type ProjectColumnCards = Endpoints["GET /projects/columns/{column_id}/ca
 
 export const getProjects = async (): Promise<Projects> => {
 	const response = await octokit.rest.projects.listForUser({
-		username: "vftiago",
+		username: "lightradius",
 	});
 
 	return response.data;
@@ -44,7 +44,7 @@ export const getProjectColumnCards = async (
 export const getRepos = async (): Promise<Repositories> => {
 	const response = await octokit.rest.repos.listForUser({
 		type: "owner",
-		username: "vftiago",
+		username: "lightradius",
 		sort: "updated",
 	});
 
@@ -55,7 +55,7 @@ export const getRepositoryCommits = async (
 	repositoryName: string,
 ): Promise<RepositoryCommits> => {
 	const response = await octokit.rest.repos.listCommits({
-		owner: "vftiago",
+		owner: "lightradius",
 		repo: repositoryName,
 		per_page: 5,
 	});

@@ -14,7 +14,7 @@ const Waves = () => {
 	};
 
 	return new THREE.Mesh(
-		new THREE.PlaneBufferGeometry(
+		new THREE.PlaneGeometry(
 			PLANE_DIMENSIONS,
 			PLANE_DIMENSIONS,
 			PLANE_DIMENSIONS / 32,

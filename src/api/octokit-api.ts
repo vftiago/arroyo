@@ -2,16 +2,21 @@ import { Octokit } from "@octokit/rest";
 import { Endpoints } from "@octokit/types";
 
 const octokit = new Octokit({
-	auth: process.env.REACT_APP_GITHUB_AUTH_TOKEN,
+	auth: import.meta.env.VITE_GITHUB_AUTH_TOKEN,
 	userAgent: "arroyo",
 	previews: ["inertia"],
 });
 
-export type Projects = Endpoints["GET /users/{username}/projects"]["response"]["data"];
-export type Repositories = Endpoints["GET /users/{username}/repos"]["response"]["data"];
-export type RepositoryCommits = Endpoints["GET /repos/{owner}/{repo}/commits"]["response"]["data"];
-export type ProjectColumns = Endpoints["GET /projects/{project_id}/columns"]["response"]["data"];
-export type ProjectColumnCards = Endpoints["GET /projects/columns/{column_id}/cards"]["response"]["data"];
+export type Projects =
+	Endpoints["GET /users/{username}/projects"]["response"]["data"];
+export type Repositories =
+	Endpoints["GET /users/{username}/repos"]["response"]["data"];
+export type RepositoryCommits =
+	Endpoints["GET /repos/{owner}/{repo}/commits"]["response"]["data"];
+export type ProjectColumns =
+	Endpoints["GET /projects/{project_id}/columns"]["response"]["data"];
+export type ProjectColumnCards =
+	Endpoints["GET /projects/columns/{column_id}/cards"]["response"]["data"];
 
 export const getProjects = async (): Promise<Projects> => {
 	const response = await octokit.rest.projects.listForUser({

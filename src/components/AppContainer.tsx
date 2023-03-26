@@ -9,22 +9,14 @@ import Footer from "./Footer";
 import MainSection from "./MainSection";
 import Navbar from "./Navbar";
 import { screenSize } from "../theme";
-import { WEEKDAYS } from "../constants";
-import { pickRandomArrayElement } from "../utils/pickRandomArrayElement";
 import RepositorySection from "./RepositorySection";
+import { weightedHeaders } from "./weighted-tables/headers";
 const ThreeScene = React.lazy(() => import("./scene/ThreeScene"));
 
 export enum Orientation {
 	Horizontal = "horizontal",
 	Vertical = "vertical",
 }
-
-const today = WEEKDAYS[new Date().getDay()];
-
-const headers = [
-	["Hello World", `It is ${today}`, "Welcome back"],
-	["Stuff I've been working on lately", "What's cooking", "Latest projects"],
-];
 
 function AppContainer() {
 	const [muted, setMuted] = useState<boolean>(true);
@@ -82,9 +74,7 @@ function AppContainer() {
 
 		setFirstVisiblePage(firstPageVisibilityInfo[0]);
 
-		const header: string = pickRandomArrayElement(
-			headers[firstPageVisibilityInfo[0]],
-		);
+		const header = weightedHeaders[firstPageVisibilityInfo[0]].pick();
 
 		setHeader(header);
 	};

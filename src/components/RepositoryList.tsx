@@ -1,70 +1,54 @@
-/** @jsxRuntime classic */
-/** @jsx jsx */
-import { css, jsx } from "@emotion/core";
-import { Repositories } from "../api/octokit-api";
+import React from "react";
+import { DEFAULT_OWNER, OrganizationRepositories } from "../api/octokit-api";
 import { motion } from "framer-motion";
-import RepositoryCard from "./common/RepositoryCard";
+import RepositoryCard from "./RepositoryCard";
 
 // #region framer-animations
 const projectListAnimation = {
-	hidden: { opacity: 0 },
-	visible: {
-		opacity: 1,
-		transition: {
-			delay: 0.2,
-			duration: 0.8,
-			when: "beforeChildren",
-			staggerChildren: 0.1,
-			ease: "backInOut",
-		},
-	},
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      when: "beforeChildren",
+      staggerChildren: 0.1,
+      ease: "backInOut",
+    },
+  },
 };
 
 const projectListItemAnimation = {
-	visible: {
-		opacity: 1,
-		transition: {
-			duration: 0.8,
-			ease: "backInOut",
-		},
-	},
-	hidden: { opacity: 0 },
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      duration: 0.8,
+      ease: "backInOut",
+    },
+  },
 };
 // #endregion framer-animations
 
-const RepositoryList = ({ data }: { data: Repositories }) => {
-	return (
-		<motion.ul
-			initial="hidden"
-			animate="visible"
-			variants={projectListAnimation}
-			css={repostoryListStyle}
-		>
-			{data.map((repo, index) => {
-				return (
-					<motion.li key={index} variants={projectListItemAnimation}>
-						<RepositoryCard
-							htmlUrl={repo.html_url}
-							name={repo.name}
-							homepage={repo.homepage}
-						></RepositoryCard>
-					</motion.li>
-				);
-			})}
-		</motion.ul>
-	);
-};
+const RepositoryList = ({ repositoryData }: { repositoryData: OrganizationRepositories }) => {
+  const filteredRepositoryList = repositoryData.organization.repositories.nodes.filter(({ owner, name }) => {
+    return owner.login === DEFAULT_OWNER && name !== DEFAULT_OWNER;
+  });
 
-const repostoryListStyle = css`
-	display: grid;
-	justify-content: center;
-	width: 100%;
-	max-width: 1600px;
-	grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
-	grid-gap: 16px;
-	list-style: none;
-	padding: 0;
-	margin: 0 auto;
-`;
+  return (
+    <motion.ul
+      initial="hidden"
+      animate="visible"
+      variants={projectListAnimation}
+      className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3"
+    >
+      {filteredRepositoryList.map((repositoryNode, index) => {
+        return (
+          <motion.li key={index} className="flex" variants={projectListItemAnimation}>
+            <RepositoryCard repositoryNode={repositoryNode}></RepositoryCard>
+          </motion.li>
+        );
+      })}
+    </motion.ul>
+  );
+};
 
 export default RepositoryList;

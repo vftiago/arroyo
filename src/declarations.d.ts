@@ -8,9 +8,4 @@ declare module "*.vert" {
   export default value;
 }
 
-declare module "*.mp3" {
-  const value: string;
-  export default value;
-}
-
 declare module "three/examples/jsm/libs/dat.gui.module";

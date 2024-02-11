@@ -1,8 +1,10 @@
 import React from "react";
+import { DEFAULT_ICON_SIZE } from "../../theme";
 
-const HeadphonesIcon = ({ size = 44 }) => {
+const HeadphonesIcon = ({ customStyles, size = DEFAULT_ICON_SIZE }: { customStyles?: string; size?: number }) => {
   return (
     <svg
+      className={customStyles}
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 118.28 122.88"
       width={size}

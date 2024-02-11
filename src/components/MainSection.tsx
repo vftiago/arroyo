@@ -1,216 +1,64 @@
-/** @jsxRuntime classic */
-/** @jsx jsx */
-import { css, jsx } from "@emotion/core";
-import LinkedinIcon from "./icons/LinkedinIcon";
-import GithubIcon from "./icons/GithubIcon";
-import MailIcon from "./icons/MailIcon";
+import React, { useRef } from "react";
 import Typed from "typed.js";
-import { copyToClipboard } from "../utils/copyToClipboard";
-import { motion } from "framer-motion";
-import { Fragment, useEffect } from "react";
-import { iconSize } from "../theme";
-import { colors } from "../theme";
+import { useInView } from "framer-motion";
+import { useEffect } from "react";
 import Waterfall from "./Waterfalll";
-import { EMAIL } from "../constants";
-import { useInView } from "react-intersection-observer";
+import Socials from "./Socials";
+import { Page } from "./MainApp";
 
-// #region framer-animations
-const visible = {
-	opacity: 1,
-	x: 0,
-	transition: {
-		delay: 0.2,
-		duration: 0.8,
-		when: "beforeChildren",
-		staggerChildren: 0.2,
-		ease: "backInOut",
-	},
+let typedName: Typed;
+let typedJob: Typed;
+
+const HEADING_1_START_DELAY = 1800;
+
+const defaultTypedOptions = {
+  typeSpeed: 20,
+  showCursor: true,
+  cursorChar: "_",
 };
 
-const socialIconsVariant = {
-	visible,
-	hidden: { opacity: 0 },
+type MainSectionProps = {
+  isLoading: boolean;
+  onVisibilityChange: (page: Page, isInView: boolean) => void;
 };
 
-const item = {
-	visible: {
-		opacity: 1,
-		cursor: "pointer",
-		transition: {
-			duration: 0.8,
-			ease: "backInOut",
-		},
-	},
-	hidden: { opacity: 0 },
+const MainSection = ({ isLoading, onVisibilityChange }: MainSectionProps) => {
+  const ref = useRef(null);
+  const isInView = useInView(ref);
+
+  useEffect(() => {
+    typedName = new Typed("#typed-name", {
+      ...defaultTypedOptions,
+      strings: [`lightradius`],
+      startDelay: HEADING_1_START_DELAY,
+    });
+
+    return () => {
+      typedName?.destroy();
+      typedJob?.destroy();
+    };
+  }, []);
+
+  useEffect(() => {
+    onVisibilityChange(Page.Main, isInView);
+  }, [isInView, onVisibilityChange]);
+
+  return (
+    <main className="flex min-h-full w-full flex-col items-center justify-center">
+      <div className="flex h-16 w-[201px] flex-col items-start justify-between">
+        <div>
+          <h1 className="text-3xl font-bold" ref={ref}>
+            <span id="typed-name"></span>
+          </h1>
+          <h2>
+            <span className="text-xl" id="typed-job"></span>
+          </h2>
+        </div>
+      </div>
+      <Socials />
+      <Waterfall isLoading={isLoading} />
+    </main>
+  );
 };
-// #endregion framer-animations
-
-let typedMail: Typed;
-
-type Props = {
-	onButtonClick: () => void;
-	onButtonHover: () => void;
-	onHeadphonesIconClick: () => void;
-	onVisibilityChange: (pageNumber: number, inview: boolean) => void;
-};
-
-function MainSection({
-	onButtonClick,
-	onButtonHover,
-	onVisibilityChange,
-}: Props) {
-	const { ref, inView } = useInView({
-		threshold: 1,
-	});
-
-	useEffect(() => {
-		onVisibilityChange(0, inView);
-	}, [inView]);
-
-	const handleMailIconClick = () => {
-		if (typedMail) typedMail.destroy();
-
-		copyToClipboard(EMAIL);
-
-		onButtonClick();
-
-		typedMail = new Typed("#toast", {
-			strings: [`<u>${EMAIL}</u> copied to clipboard.`, ""],
-			typeSpeed: 1,
-			backDelay: 3000,
-			showCursor: false,
-			fadeOut: true,
-		});
-	};
-
-	return (
-		<Fragment>
-			<div
-				id="external-link"
-				css={css`
-					height: 80px;
-					display: flex;
-					align-items: center;
-					position: fixed;
-					left: 90px;
-					p {
-						font-size: 14px;
-						margin: 0 8px;
-					}
-					a {
-						color: ${colors.text.accent};
-					}
-				`}
-			></div>
-			<div css={appContainerStyles}>
-				<main css={mainContentStyle}>
-					<h1 ref={ref}>lightradius</h1>
-				</main>
-				<motion.div
-					css={callToActionStyle}
-					initial="hidden"
-					animate="visible"
-					variants={socialIconsVariant}
-				>
-					<div css={toastStyle}>
-						<span id="toast"></span>
-					</div>
-					<div css={socialIconsStyle}>
-						<motion.a
-							variants={item}
-							href="https://github.com/lightradius"
-							target="_blank"
-							rel="noreferrer"
-							onMouseEnter={onButtonHover}
-							onClick={onButtonClick}
-						>
-							<GithubIcon size={iconSize}></GithubIcon>
-						</motion.a>
-						<motion.a
-							variants={item}
-							onClick={handleMailIconClick}
-							target="_blank"
-							rel="noreferrer"
-							onMouseEnter={onButtonHover}
-						>
-							<MailIcon size={iconSize}></MailIcon>
-						</motion.a>
-						<motion.a
-							variants={item}
-							href="https://www.linkedin.com/company/light-radius/"
-							target="_blank"
-							rel="noreferrer"
-							onMouseEnter={onButtonHover}
-							onClick={onButtonClick}
-						>
-							<LinkedinIcon size={iconSize}></LinkedinIcon>
-						</motion.a>
-					</div>
-					<Waterfall />
-				</motion.div>
-			</div>
-		</Fragment>
-	);
-}
-
-const appContainerStyles = css`
-	display: flex;
-	align-items: center;
-	/* justify-content: center; */
-	height: 100vh;
-	width: 100%;
-	overflow-x: hidden;
-`;
-
-const mainContentStyle = css`
-	top: 0;
-	left: 0;
-	display: flex;
-	width: 100%;
-	min-height: 100vh;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-	p {
-		margin: 0;
-	}
-`;
-
-const toastStyle = css`
-	width: 287px;
-	height: 16px;
-`;
-
-const socialIconsStyle = css`
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	width: 200px;
-	margin: 32px;
-	a {
-		height: ${iconSize + "px"};
-		width: ${iconSize + "px"};
-	}
-	svg {
-		transition: all 0.5s cubic-bezier(0.215, 0.61, 0.355, 1);
-		/* margin: ${"0 " + iconSize + "px"}; */
-		fill: #fff;
-		&:hover {
-			cursor: pointer;
-			fill: ${colors.icon.accent};
-		}
-	}
-`;
-
-const callToActionStyle = css`
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	flex-direction: column;
-	height: 300px;
-	width: 100%;
-	position: absolute;
-	bottom: 0;
-`;
 
 export default MainSection;

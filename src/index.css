@@ -1,82 +1,87 @@
 @import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Roboto+Condensed:wght@300&display=swap");
 
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body,
+#root {
+  height: 100%;
+  width: 100%;
+}
+
 body {
-	height: 100vh;
-	display: flex;
-	/* align-items: center;
-  justify-content: center; */
-	background-color: #333;
-	color: #fff;
-	margin: 0;
-	font-family: "Roboto Condensed", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans",
-		"Droid Sans", "Helvetica Neue", sans-serif;
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
+  background-color: #333;
+  color: #fff;
+  margin: 0;
+  font-family: "Roboto Condensed", "Oxygen", "Ubuntu", "Droid Sans", "Helvetica Neue", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 h1,
 h2,
 h3,
 h4 {
-	font-family: "Orbitron";
-	margin: 8px 0;
+  font-family: "Orbitron";
+  margin: 0;
 }
 
-#root {
-	width: 100%;
+p {
+  margin: 0;
 }
 
 button {
-	font-family: "Roboto Condensed", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans",
-		"Droid Sans", "Helvetica Neue", sans-serif;
+  font-family: "Roboto Condensed", "Oxygen", "Ubuntu", "Droid Sans", "Helvetica Neue", sans-serif;
 }
 
 ::selection {
-	color: black;
-	background: white;
+  color: black;
+  background: white;
 }
 
 .typed-cursor {
-	animation-name: blink;
-	animation-delay: 0s;
-	animation-direction: normal;
-	animation-duration: 0.8s;
-	animation-fill-mode: none;
-	animation-iteration-count: infinite;
-	animation-play-state: running;
-	animation-timing-function: ease;
+  animation-name: blink;
+  animation-delay: 0s;
+  animation-direction: normal;
+  animation-duration: 0.8s;
+  animation-fill-mode: none;
+  animation-iteration-count: infinite;
+  animation-play-state: running;
+  animation-timing-function: ease;
 }
 
 @keyframes blink {
-	0% {
-		opacity: 1;
-	}
-	50% {
-		opacity: 0;
-	}
-	100% {
-		opacity: 1;
-	}
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 @-webkit-keyframes blink {
-	0% {
-		opacity: 1;
-	}
-	50% {
-		opacity: 0;
-	}
-	100% {
-		opacity: 1;
-	}
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 @-moz-keyframes blink {
-	0% {
-		opacity: 1;
-	}
-	50% {
-		opacity: 0;
-	}
-	100% {
-		opacity: 1;
-	}
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }

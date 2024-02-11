@@ -1,84 +1,82 @@
-/** @jsxRuntime classic */
-/** @jsx jsx */
-import { css, jsx } from "@emotion/core";
-import { colors } from "../theme";
-import { motion } from "framer-motion";
+import React, { useEffect, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 import { scroller } from "react-scroll";
+import Clicky from "./Clicky";
 
-const Waterfall = () => {
-	const handleWaterfallClick = () => {
-		scroller.scrollTo("mission-statement", {
-			smooth: true,
-		});
-	};
-
-	return (
-		<motion.div
-			css={waterfallStyle}
-			variants={item}
-			onClick={handleWaterfallClick}
-		>
-			<span></span>
-			<span></span>
-			<span></span>
-		</motion.div>
-	);
+// #region framer-animations
+const visible = {
+  opacity: 1,
+  transition: {
+    delay: 4,
+    duration: 1,
+    ease: "backInOut",
+  },
 };
 
-const item = {
-	visible: {
-		opacity: 1,
-		cursor: "pointer",
-		transition: {
-			duration: 0.8,
-			ease: "backInOut",
-		},
-	},
-	hidden: { opacity: 0 },
+const hidden = { opacity: 0 };
+
+const waterFallVariant = {
+  visible,
+  hidden,
+};
+// #endregion framer-animations
+
+type WaterfallProps = {
+  isLoading: boolean;
 };
 
-const waterfallStyle = css`
-	@keyframes waterfall {
-		0% {
-			transform: translateY(-100.5%);
-		}
-		100% {
-			transform: translateY(100.5%);
-		}
-	}
-	width: 15px;
-	height: 80px;
-	overflow: hidden;
-	position: absolute;
-	bottom: 0;
-	&:hover {
-		span {
-			background-color: ${colors.icon.accent};
-		}
-	}
-	span {
-		width: 1px;
-		height: 100%;
-		position: absolute;
-		top: 0;
-		background-color: #888;
-		animation-name: waterfall;
-		animation-duration: 1s;
-		animation-iteration-count: infinite;
-		transition: background-color 0.5s cubic-bezier(0.215, 0.61, 0.355, 1);
-		&:nth-of-type(1) {
-			left: 0;
-		}
-		&:nth-of-type(2) {
-			left: 50%;
-			margin-left: -1px;
-			animation-delay: 0.3s;
-		}
-		&:nth-of-type(3) {
-			right: 0;
-			animation-delay: 0.15s;
-		}
-	}
-`;
+const Waterfall = ({ isLoading }: WaterfallProps) => {
+  const [hasUserScrolled, setHasUserScrolled] = useState(false);
+
+  const handleWindowScroll = () => {
+    setHasUserScrolled(true);
+  };
+
+  const handleWaterfallClick = () => {
+    scroller.scrollTo("repository-section", {
+      smooth: true,
+    });
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleWindowScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleWindowScroll);
+    };
+  }, []);
+
+  return (
+    <Clicky>
+      <AnimatePresence>
+        {!isLoading && !hasUserScrolled && (
+          <motion.div
+            className="absolute bottom-0 flex flex-col items-center justify-center pb-32"
+            initial="hidden"
+            animate="visible"
+            exit="hidden"
+            variants={waterFallVariant}
+          >
+            <div
+              className="absolute bottom-0 h-14 w-[17px] overflow-hidden transition delay-500 ease-out-expo"
+              onClick={handleWaterfallClick}
+            >
+              {["left-0", "left-1/2 ml-[-1px] animation-delay-300", "right-0 animation-delay-150"].map(
+                (spanClass, index) => {
+                  return (
+                    <span
+                      className={`${spanClass} absolute top-0 h-full w-[1px] animate-waterfall bg-black transition duration-500 ease-out-expo`}
+                      key={index}
+                    ></span>
+                  );
+                },
+              )}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </Clicky>
+  );
+};
 
 export default Waterfall;
